@@ -1,7 +1,0 @@
-props/properties>>>they are properties that are shared between components
-                >> a parent component can send data to a child component
-                >>
-
-state >>> refers to data or properties that need tracking in an application
-useState>>> allows us to track state in a function component
-const[x,y]=useState(z)>>> x now becomes our current value and y the value function updater

@@ -1,0 +1,201 @@
+:root {
+    --bg: #0b111b;
+    --surface: #131e2d;
+    --surface-hover: #1b2a3c;
+    --border: #29394d;
+    --text: #f3f4f6;
+    --muted: #94a3b8;
+    --peach: #ffb17e;
+    --coral: #f18e80;
+    --teal: #73d6c1;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 10% 0%, #18293a 0%, transparent 38%),
+        radial-gradient(ellipse at 100% 35%, #15252d 0%, transparent 30%),
+        var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* ---------- Header ---------- */
+h1 {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 32px 18px;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.15;
+}
+
+h1::after {
+    content: ".";
+    color: var(--peach);
+}
+
+/* ---------- Search form ---------- */
+body > div:has(form) {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 12px 32px 45px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    transition: border-color 0.2s ease;
+}
+
+form:focus-within {
+    border-color: var(--teal);
+}
+
+input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 18px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 1rem;
+}
+
+input[type="text"]::placeholder {
+    color: #718096;
+}
+
+button {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 13px;
+    background: linear-gradient(120deg, var(--peach), var(--coral));
+    color: #17202b;
+    font-size: 0.95rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* ---------- Movie poster gallery ---------- */
+#movie_posters {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 28px 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px 32px 70px;
+}
+
+#movie_posters a {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 2 / 3;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+#movie_posters a:hover {
+    transform: translateY(-5px);
+    border-color: var(--teal);
+    box-shadow: 0 14px 30px rgb(0 0 0 / 32%);
+}
+
+#movie_posters img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- Empty/error message ---------- */
+#movie_posters > p {
+    grid-column: 1 / -1;
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--muted);
+    text-align: center;
+}
+
+/* ---------- Recommendation section ---------- */
+#recommendation {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+}
+
+/* ---------- Responsive layout ---------- */
+@media (max-width: 600px) {
+    h1 {
+        padding: 32px 20px 16px;
+        letter-spacing: -1px;
+    }
+
+    body > div:has(form) {
+        padding: 12px 20px 30px;
+    }
+
+    form {
+        gap: 4px;
+    }
+
+    input[type="text"] {
+        padding: 13px 10px;
+    }
+
+    button {
+        padding: 13px 17px;
+    }
+
+    #movie_posters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 12px;
+        padding: 20px;
+    }
+
+    #recommendation {
+        padding: 0 20px 40px;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giver</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home'%}">Home</a>
+        <a href="{% url 'register'%}">Register</a>
+        <a href="{% url 'profile'%}">Profile</a>
+    </nav>
+
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

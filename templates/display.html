@@ -1,0 +1,135 @@
+{% extends 'main.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giver</title>
+    <link rel="stylesheet" href="{% static 'css/display.css'%}">
+    <script src="{% static 'js/display.js'%}" defer></script>
+    
+</head>
+<body>
+
+    {% block body %}
+        <div class="movie-card">
+            <!-- Poster column -->
+            <div class="poster-wrapper">
+                <img
+                    src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                    alt="{{ movie.title }}"
+                    loading="lazy"
+                >
+            </div>
+
+            <!-- Info column -->
+            <div class="info">
+                <h3>{{ movie.title }}</h3>
+
+                <span class="release-date"> {{ movie.release_date }}</span>
+
+                <p class="overview">{{ movie.overview }}</p>
+
+                <!-- Rating actions: like / dislike -->
+                <div class="rating-actions">
+                    <!-- LIKE button -->
+                    <button
+                        class="rating-btn like-btn"
+                        id="likeBtn"
+                        aria-label="Like this movie"
+                        aria-pressed="false"
+                    >
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </button>
+
+                    <!-- DISLIKE button -->
+                    <button
+                        class="rating-btn dislike-btn"
+                        id="dislikeBtn"
+                        aria-label="Dislike this movie"
+                        aria-pressed="false"
+                    >
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2.65l1.45 1.32C18.6 8.64 22 11.72 22 15.5 22 18.58 19.58 21 16.5 21c-1.74 0-3.41-.81-4.5-2.09C10.91 20.19 9.24 21 7.5 21 4.42 21 2 18.58 2 15.5c0-3.78 3.4-6.86 8.55-11.54L12 2.65z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        
+        </div>
+
+        <div id="similar">
+            {% if posters%}
+                <div id="movie-posters">
+                    {% for poster in posters%}
+                        <a href="{% url 'movie_detail' movie_id=poster.id %}">
+                            <img
+                            src="{{poster.path}}"
+                            alt="{{ movie.title }}"
+                            loading="lazy"
+                            >
+                        <p>{{poster.title}}</p>
+                        </a>
+
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No poster available</p>
+            
+            {% endif %}
+    
+
+        </div>
+
+        <script>
+            (function() {
+                const likeBtn = document.getElementById('likeBtn');
+                const dislikeBtn = document.getElementById('dislikeBtn');
+
+                // Toggle like (and remove dislike active if needed)
+                likeBtn.addEventListener('click', function() {
+                    const isLiked = this.classList.contains('active');
+
+                    if (isLiked) {
+                        // Un-like
+                        this.classList.remove('active');
+                        this.setAttribute('aria-pressed', 'false');
+                    } else {
+                        // Like: activate, deactivate dislike
+                        this.classList.add('active');
+                        this.setAttribute('aria-pressed', 'true');
+
+                        dislikeBtn.classList.remove('active');
+                        dislikeBtn.setAttribute('aria-pressed', 'false');
+                    }
+                });
+
+                // Toggle dislike (and remove like active if needed)
+                dislikeBtn.addEventListener('click', function() {
+                    const isDisliked = this.classList.contains('active');
+
+                    if (isDisliked) {
+                        // Un-dislike
+                        this.classList.remove('active');
+                        this.setAttribute('aria-pressed', 'false');
+                    } else {
+                        // Dislike: activate, deactivate like
+                        this.classList.add('active');
+                        this.setAttribute('aria-pressed', 'true');
+
+                        likeBtn.classList.remove('active');
+                        likeBtn.setAttribute('aria-pressed', 'false');
+                    }
+                });
+
+
+            })();
+        </script>
+    {% endblock %}
+
+
+</body>
+</html>

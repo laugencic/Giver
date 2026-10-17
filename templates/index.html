@@ -1,0 +1,29 @@
+{% extends 'main.html'%}
+{% load static %}
+    
+{% block body %}
+    <link rel="stylesheet" href="{% static 'css/index.css'%}">
+
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text"placeholder='Movie title' name="title" required><br>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div id="movie_posters">
+        {% if movies%}
+            {% for movie in movies %}   
+                {% if movie.path %}
+                    <a href="{% url 'movie_detail' movie_id=movie.id %}"><img src="{{movie.path}}" alt="{{movie.title}}" width="300px"></a>
+
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+
+    </div>
+{% endblock %}
+

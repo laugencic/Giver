@@ -74,7 +74,9 @@ def display(request,movie_id):
             posters.append(content)
 
 
-    
+    # likes and dislikes 
+    # if request.method=='POST':
+
     return render(request,'display.html',{'movie':movie,"posters":posters})
 
 # similar movies based on genre

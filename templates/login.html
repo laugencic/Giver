@@ -1,18 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <form>
-        <input type="text" placeholder="Username" required>
-        <input type="password" placeholder="Password"required>
+{% extends 'main.html' %}
+{% load static %}
 
-        <a href="{% url 'register'%}">Register</a>
-        <a href="#">Google</a>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+{% block title %}Login | Giver{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+    <section class="auth-card">
+        <h1 class="auth-heading">Welcome <span style="color: var(--coral);">back.</span></h1>
+        <p class="auth-subtitle">
+            Your next favorite movie is waiting. Sign in to continue.
+        </p>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <input
+                    type="password"
+                    name="password"
+                    id="login-password"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="password-toggle"
+                    onclick="togglePassword('login-password', this)"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                >
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true">
+                        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <button type="submit" class="auth-button">
+                Log In
+            </button>
+        </form>
+
+        <div class="auth-divider">OR</div>
+
+        <a href="#" class="google-button">
+            Continue with Google
+        </a>
+
+        <p class="auth-footer">
+            Don't have an account?
+            <a href="{% url 'register' %}">Create one</a>
+        </p>
+    </section>
+</div>
+{% endblock %}

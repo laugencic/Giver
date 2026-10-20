@@ -1,37 +1,32 @@
 {% extends 'main.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giver</title>
+
+
+{% block body %}
     <link rel="stylesheet" href="{% static 'css/display.css'%}">
     <script src="{% static 'js/display.js'%}" defer></script>
     
-</head>
-<body>
+    <div class="movie-card">
+        <!-- Poster column -->
+        <div class="poster-wrapper">
+            <img
+                src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                alt="{{ movie.title }}"
+                loading="lazy"
+            >
+        </div>
 
-    {% block body %}
-        <div class="movie-card">
-            <!-- Poster column -->
-            <div class="poster-wrapper">
-                <img
-                    src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
-                    alt="{{ movie.title }}"
-                    loading="lazy"
-                >
-            </div>
+        <!-- Info column -->
+        <div class="info">
+            <h3>{{ movie.title }}</h3>
 
-            <!-- Info column -->
-            <div class="info">
-                <h3>{{ movie.title }}</h3>
+            <span class="release-date"> {{ movie.release_date }}</span>
 
-                <span class="release-date"> {{ movie.release_date }}</span>
+            <p class="overview">{{ movie.overview }}</p>
 
-                <p class="overview">{{ movie.overview }}</p>
-
-                <!-- Rating actions: like / dislike -->
+            <!-- Rating actions: like / dislike -->
+            <form method="post">
+                {% csrf_token %}
                 <div class="rating-actions">
                     <!-- LIKE button -->
                     <button
@@ -57,79 +52,76 @@
                         </svg>
                     </button>
                 </div>
-            </div>
-        
+            </form>
         </div>
-
-        <div id="similar">
-            {% if posters%}
-                <div id="movie-posters">
-                    {% for poster in posters%}
-                        <a href="{% url 'movie_detail' movie_id=poster.id %}">
-                            <img
-                            src="{{poster.path}}"
-                            alt="{{ movie.title }}"
-                            loading="lazy"
-                            >
-                        <p>{{poster.title}}</p>
-                        </a>
-
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p>No poster available</p>
-            
-            {% endif %}
     
+    </div>
 
-        </div>
+    <div id="similar">
+        {% if posters%}
+            <div id="movie-posters">
+                {% for poster in posters%}
+                    <a href="{% url 'movie_detail' movie_id=poster.id %}">
+                        <img
+                        src="{{poster.path}}"
+                        alt="{{ movie.title }}"
+                        loading="lazy"
+                        >
+                    <p>{{poster.title}}</p>
+                    </a>
 
-        <script>
-            (function() {
-                const likeBtn = document.getElementById('likeBtn');
-                const dislikeBtn = document.getElementById('dislikeBtn');
-
-                // Toggle like (and remove dislike active if needed)
-                likeBtn.addEventListener('click', function() {
-                    const isLiked = this.classList.contains('active');
-
-                    if (isLiked) {
-                        // Un-like
-                        this.classList.remove('active');
-                        this.setAttribute('aria-pressed', 'false');
-                    } else {
-                        // Like: activate, deactivate dislike
-                        this.classList.add('active');
-                        this.setAttribute('aria-pressed', 'true');
-
-                        dislikeBtn.classList.remove('active');
-                        dislikeBtn.setAttribute('aria-pressed', 'false');
-                    }
-                });
-
-                // Toggle dislike (and remove like active if needed)
-                dislikeBtn.addEventListener('click', function() {
-                    const isDisliked = this.classList.contains('active');
-
-                    if (isDisliked) {
-                        // Un-dislike
-                        this.classList.remove('active');
-                        this.setAttribute('aria-pressed', 'false');
-                    } else {
-                        // Dislike: activate, deactivate like
-                        this.classList.add('active');
-                        this.setAttribute('aria-pressed', 'true');
-
-                        likeBtn.classList.remove('active');
-                        likeBtn.setAttribute('aria-pressed', 'false');
-                    }
-                });
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No poster available</p>
+        
+        {% endif %}
 
 
-            })();
-        </script>
-    {% endblock %}
+    </div>
+
+    <script>
+        (function() {
+            const likeBtn = document.getElementById('likeBtn');
+            const dislikeBtn = document.getElementById('dislikeBtn');
+
+            // Toggle like (and remove dislike active if needed)
+            likeBtn.addEventListener('click', function() {
+                const isLiked = this.classList.contains('active');
+
+                if (isLiked) {
+                    // Un-like
+                    this.classList.remove('active');
+                    this.setAttribute('aria-pressed', 'false');
+                } else {
+                    // Like: activate, deactivate dislike
+                    this.classList.add('active');
+                    this.setAttribute('aria-pressed', 'true');
+
+                    dislikeBtn.classList.remove('active');
+                    dislikeBtn.setAttribute('aria-pressed', 'false');
+                }
+            });
+
+            // Toggle dislike (and remove like active if needed)
+            dislikeBtn.addEventListener('click', function() {
+                const isDisliked = this.classList.contains('active');
+
+                if (isDisliked) {
+                    // Un-dislike
+                    this.classList.remove('active');
+                    this.setAttribute('aria-pressed', 'false');
+                } else {
+                    // Dislike: activate, deactivate like
+                    this.classList.add('active');
+                    this.setAttribute('aria-pressed', 'true');
+
+                    likeBtn.classList.remove('active');
+                    likeBtn.setAttribute('aria-pressed', 'false');
+                }
+            });
 
 
-</body>
-</html>
+        })();
+    </script>
+{% endblock %}

@@ -3,5 +3,11 @@
 
 
 {% block body %}
-    <h1>This is the profile page</h1>
+    {% if movies %}
+        {% for movie in movies %}
+            <p>Yes</p>
+        {% endfor %}
+    {% else%}
+        <p>You haven't added any movies yet</p>
+    {% endif %}
 {% endblock %}
